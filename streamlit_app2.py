@@ -1,7 +1,8 @@
 # Import python packages
 import streamlit as st
-from snowflake.snowpark.context import get_active_session
+#from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col, when_matched
+import requests
 
 # Write directly to the app
 st.title(f"Pending Smootie Orders :cup_with_straw: {st.__version__}")
@@ -11,7 +12,9 @@ st.write(
 )
 
 
-session = get_active_session()
+#session = get_active_session()
+cnx = st.connection("snowflake")
+session = cnx.session()
 my_dataframe = session.table("smoothies.public.orders").filter(col("ORDER_FILLED")==0).collect() 
 #st.dataframe(data=my_dataframe, use_container_width=True)
 
